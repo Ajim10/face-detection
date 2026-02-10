@@ -11,6 +11,9 @@ type Config struct {
 	ProjectID string
 	Location  string
 	Model     string
+	Bucket    string
+	Object    string
+	Filename  string
 }
 
 func Load() (*Config, error) {
@@ -18,6 +21,9 @@ func Load() (*Config, error) {
 		ProjectID: os.Getenv("PROJECT_ID"),
 		Location:  os.Getenv("LOCATION"),
 		Model:     os.Getenv("MODEL"),
+		Bucket:    os.Getenv("BUCKET"),
+		Object:    os.Getenv("OBJECT"),
+		Filename:  os.Getenv("FILENAME"),
 	}
 
 	if cfg.ProjectID == "" {

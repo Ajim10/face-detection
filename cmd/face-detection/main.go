@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"os"
 
 	"github.com/ajim10/face-detection/internal/config"
 	"github.com/ajim10/face-detection/internal/database"
@@ -21,12 +20,9 @@ func main() {
 		log.Fatal("Config Error:", err)
 	}
 
-	bucket := os.Getenv("BUCKET")
-	object := os.Getenv("OBJECT")
-	filename := os.Getenv("FILENAME")
-	gcsURI := fmt.Sprintf("gs://%s/%s", bucket, object)
+	gcsURI := fmt.Sprintf("gs://%s/%s", cfg.Bucket, cfg.Object)
 
-	storageClient, err := st.NewCloudStorageClient(ctx, bucket, object)
+	storageClient, err := st.NewCloudStorageClient(ctx, cfg.Bucket, cfg.Object)
 	if err != nil {
 		log.Fatal("StorageClient Error:", err)
 	}
@@ -43,7 +39,7 @@ func main() {
 
 	s := facedetection.NewService(firestoreClient, storageClient, visionClient)
 
-	err = s.ProcessImage(ctx, gcsURI, filename, cfg.ProjectID, cfg.Location)
+	err = s.ProcessImage(ctx, gcsURI, cfg.Filename, cfg.ProjectID, cfg.Location)
 	if err != nil {
 		log.Fatal("ProcessImage Error:", err)
 	}
