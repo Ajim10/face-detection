@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/ajim10/face-detection/internal/config"
 	"github.com/ajim10/face-detection/internal/database"
@@ -20,9 +21,9 @@ func main() {
 		log.Fatal("Config Error:", err)
 	}
 
-	bucket := "face-detection"
-	object := "test.jpg"
-	filename := "profile.jpg"
+	bucket := os.Getenv("BUCKET")
+	object := os.Getenv("OBJECT")
+	filename := os.Getenv("FILENAME")
 	gcsURI := fmt.Sprintf("gs://%s/%s", bucket, object)
 
 	storageClient, err := st.NewCloudStorageClient(ctx, bucket, object)
